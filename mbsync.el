@@ -165,7 +165,7 @@ Arguments PROC, CHANGE as in `set-process-sentinel'."
 Once mbsync has finished, run hooks in `mbsync-exit-hook'."
   (interactive "P")
   (if (mbsync-get-proc)
-      (message "Please wait, mbsync is already fetching, see buffer *mbsync* for details.")
+      (message "Already fetching.")
     (let* ((dummy (when (get-buffer mbsync-buffer-name)
                     (kill-buffer mbsync-buffer-name)))
            (proc (apply 'start-process
