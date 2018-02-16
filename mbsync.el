@@ -155,7 +155,7 @@ Arguments PROC, CHANGE as in `set-process-sentinel'."
 
 (defun mbsync-get-proc ()
   "Get the running mbsync process (or nil if no such)."
-  (let ((b (get-buffer "*mbsync*")))
+  (let ((b (get-buffer mbsync-buffer-name)))
     (and (buffer-live-p b)
          (get-buffer-process b))))
 
