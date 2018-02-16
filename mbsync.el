@@ -159,7 +159,6 @@ Arguments PROC, CHANGE as in `set-process-sentinel'."
     (and (buffer-live-p b)
          (get-buffer-process b))))
 
-;;;###autoload
 (defun mbsync ()
   "Run the `mbsync' command asynchronously.
 
