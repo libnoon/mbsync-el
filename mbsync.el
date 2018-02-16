@@ -156,7 +156,19 @@ Arguments PROC, STRING as in `set-process-filter'."
   "Mail sync is over, message it then run `mbsync-exit-hook'.
 Arguments PROC, CHANGE as in `set-process-sentinel'."
   (when (eq (process-status proc) 'exit)
-    (mbsync-log 'normal "mbsync is done")
+    (let (status-line)
+      (with-current-buffer mbsync-buffer-name
+        (goto-char (point-max))
+        (save-excursion
+          (goto-char (point-max))
+          (move-beginning-of-line nil)
+          (while (and (not (= (point) (point-min)))
+                      (looking-at "^$"))
+            (backward-char)
+            (move-beginning-of-line nil))
+          (setq status-line (buffer-substring (point) (point-max))))
+        (insert "mbsync is done"))
+      (mbsync-log 'normal (format "mbsync is done: %s" status-line)))
     (run-hooks 'mbsync-exit-hook)))
 
 (defun mbsync-get-proc ()
