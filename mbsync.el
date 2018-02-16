@@ -160,9 +160,10 @@ Arguments PROC, CHANGE as in `set-process-sentinel'."
          (get-buffer-process b))))
 
 ;;;###autoload
-(defun mbsync (&optional show-buffer)
-  "Run the `mbsync' command, asynchronously, then run `mbsync-exit-hook'.
-If SHOW-BUFFER, also show the *mbsync* output."
+(defun mbsync ()
+  "Run the `mbsync' command asynchronously.
+
+Once mbsync has finished, run hooks in `mbsync-exit-hook'."
   (interactive "P")
   (if (mbsync-get-proc)
       (message "Please wait, mbsync is already fetching, see buffer *mbsync* for details.")
@@ -175,9 +176,7 @@ If SHOW-BUFFER, also show the *mbsync* output."
                         mbsync-args)))
       (set-process-filter proc 'mbsync-process-filter)
       (set-process-sentinel proc 'mbsync-sentinel)))
-  (when show-buffer
-    (set-window-buffer (selected-window)
-                       (process-buffer (mbsync-get-proc)))))
+  (display-buffer (process-buffer (mbsync-get-proc))))
 
 (provide 'mbsync)
 
