@@ -112,6 +112,12 @@ Arguments PROC, STRING as in `set-process-filter'."
 	(goto-char (point-max))
 	(insert string)
 
+        ;; Handle ^M characters
+        (save-excursion
+          (goto-char (point-min))
+          (while (re-search-forward "^[^\n]*\r" nil t)
+            (replace-match "")))
+
 	;; accept certificates
 	(goto-char mbsync-process-filter-pos)
 	(while (re-search-forward "Accept certificate?" nil t)
